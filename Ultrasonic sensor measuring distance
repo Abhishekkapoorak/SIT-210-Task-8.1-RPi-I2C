@@ -4,25 +4,28 @@ import smbus
 GPIO.setmode(GPIO.BCM)
 
 bus= smbus.SMBus (1)
-
-DEVICE_ADDRESS = 0 * 15
+number = 1
+DEVICE_ADDRESS = 0 x 8
 I2C_PIN1 = 3
 I2C_PIN2 = 2
 GPIO.setup(I2C_PIN1,GPIO.OUT)
 GPIO.setup(I2C_PIN2,GPIO.IN)
 
 try:
-    while True:
+    while number == 1:
         GPIO.output(I2C_PIN1, False)
+         bus.write_byte(DEVICE_ADDRESS , 0 x 1) 
         print("Sensor Reading")
         time.sleep(2)
         GPIO.output(I2C_PIN1, True)
+         bus.write_byte(DEVICE_ADDRESS , 0 x 0) 
         time.sleep(0.00001)
         GPIO.output(I2C_PIN1, False)
         while GPIO.input(I2C_PIN2) ==0:
             pulse_start = time.time()
             
         while GPIO.input(I2C_PIN2) ==1:
+            bus.write_byte(DEVICE_ADDRESS , 0 x 1) 
             pulse_end = time.time()
             
         pulse_duration = pulse_end - pulse_start
@@ -46,6 +49,9 @@ try:
         
         elif(distance > 45):
             print("Too Far")
+            
+        else:
+            number = 0
 except KeyboardInterrupt:
     print("Cleaning up!")
     gpio.cleanup()
