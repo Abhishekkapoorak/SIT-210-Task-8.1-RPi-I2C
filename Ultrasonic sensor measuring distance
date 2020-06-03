@@ -1,7 +1,11 @@
 import RPi.GPIO as GPIO
 import time
+import smbus
 GPIO.setmode(GPIO.BCM)
 
+bus= smbus.SMBus (1)
+
+DEVICE_ADDRESS = 0 * 15
 I2C_PIN1 = 3
 I2C_PIN2 = 2
 GPIO.setup(I2C_PIN1,GPIO.OUT)
